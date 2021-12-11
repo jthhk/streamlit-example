@@ -8,7 +8,7 @@ def my_widget(key):
     st.subheader('JimBot updates')
 
 # And within an expander
-my_expander = st.beta_expander("Bot1", expanded=True)
+my_expander = st.expander("Bot1", expanded=True)
 with my_expander:
     clicked = my_widget("second")
 
