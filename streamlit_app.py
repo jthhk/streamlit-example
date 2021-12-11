@@ -2,6 +2,7 @@ import json
 from types import SimpleNamespace
 
 import streamlit as st
+import datetime
 
 st.set_page_config(
     page_title = 'Binance Volatility Trading Bot',
@@ -20,17 +21,20 @@ def my_widget(key):
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
     win_ratio =  round((profile_summary.tradeWins / (profile_summary.tradeWins + profile_summary.tradeLosses)) * 100,2)
-    
+    started = profile_summary.botstart_datetime
+    start_date = datetime.fromisoformat(profile_summary.botstart_datetime)
+    run_for = str(datetime.now() - start_date).split('.')[0]
+        
     col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
-        col1.metric("Lose", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)) + "%")
+        col1.metric("Lose", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)))
         col2.error("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
         col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
     elif(key == "Scalper"):
-        col1.metric("Profit", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)) + "%")
+        col1.metric("Profit", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)))
         col2.success("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
-        col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
+        col2.write("12 Dec @ 15:30  |  Staretd:" + str(started.strftime("%B")) | " Running:" + str(run_for))
     else:
         col1.metric("N/A", "0", "0%")
         col2.info("Not started")
