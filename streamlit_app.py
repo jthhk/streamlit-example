@@ -30,7 +30,8 @@ def my_widget(key):
     with open(profile_summary_file) as f:
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
-    last_updated = left(modification_date(profile_summary_file),16)
+    last_updated = modification_date(profile_summary_file)
+    
     win_ratio =  round((profile_summary.tradeWins / (profile_summary.tradeWins + profile_summary.tradeLosses)) * 100,2)
     started = left(profile_summary.botstart_datetime,16)
     start_date = datetime.fromisoformat(profile_summary.botstart_datetime)
