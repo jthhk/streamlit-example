@@ -1,4 +1,6 @@
 import json
+from types import SimpleNamespace
+
 import streamlit as st
 
 st.set_page_config(
