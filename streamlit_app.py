@@ -24,11 +24,11 @@ def my_widget(key):
     col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
-        col1.metric("Loss", str(round(profile_summary.historicProfitIncFees_Total),2), str(round(profile_summary.historicProfitIncFees_Percent),1) + "%")
+        col1.metric("Win", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)) + "%")
         col2.error("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
         col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
     elif(key == "Scalper"):
-        col1.metric("Win", str(round(profile_summary.historicProfitIncFees_Total),2), str(round(profile_summary.historicProfitIncFees_Percent),1) + "%")
+        col1.metric("Win", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)) + "%")
         col2.error("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
         col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
     else:
