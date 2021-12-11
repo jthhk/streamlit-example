@@ -1,9 +1,12 @@
 import json
 from types import SimpleNamespace
 
-import streamlit as st
+import datetime
 from datetime import datetime
 from dateutil.parser import parse
+
+import streamlit as st
+
 
 st.set_page_config(
     page_title = 'Binance Volatility Trading Bot',
