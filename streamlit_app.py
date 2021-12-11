@@ -14,6 +14,9 @@ st.set_page_config(
     layout = 'wide',
 )
 
+def left(s, amount):
+    return s[:amount]
+
     
 def my_widget(key):
 
@@ -25,7 +28,7 @@ def my_widget(key):
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
     win_ratio =  round((profile_summary.tradeWins / (profile_summary.tradeWins + profile_summary.tradeLosses)) * 100,2)
-    started = mid(profile_summary.botstart_datetime,1,15)
+    started = left(profile_summary.botstart_datetime,15)
     start_date = datetime.fromisoformat(profile_summary.botstart_datetime)
     run_for = str(datetime.now() - start_date).split('.')[0]
         
