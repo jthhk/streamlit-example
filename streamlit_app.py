@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import datetime
 from datetime import datetime
 from dateutil.parser import parse
+import os.path, time
 
 import streamlit as st
 
@@ -17,16 +18,21 @@ st.set_page_config(
 def left(s, amount):
     return s[:amount]
 
+def modification_date(filename):
+    t = os.path.getmtime(filename)
+    return datetime.datetime.fromtimestamp(t)
+    
     
 def my_widget(key):
 
 
     # path to the saved transactions history
     profile_summary_file = "/app/streamlit-example/" + key +  "/profile_summary.json"
-
+    
     with open(profile_summary_file) as f:
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
+    last_updated = modification_date(profile_summary_file)
     win_ratio =  round((profile_summary.tradeWins / (profile_summary.tradeWins + profile_summary.tradeLosses)) * 100,2)
     started = left(profile_summary.botstart_datetime,16)
     start_date = datetime.fromisoformat(profile_summary.botstart_datetime)
@@ -44,7 +50,7 @@ def my_widget(key):
         col1.metric("N/A", "0", "0%")
         col2.info("Not started")
     
-    col2.write("12 Dec @ 15:30  |  Started:" + str(started) + " | Running:" + str(run_for))
+    col2.write("Last Updated: " + str(last_updated) + " |  Started:" + str(started) + " | Running:" + str(run_for))
     
 # Per Algo
 my_expander = st.expander("Scalper", expanded=True)
