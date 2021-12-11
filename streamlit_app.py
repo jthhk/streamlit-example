@@ -6,15 +6,21 @@ st.set_page_config(
     layout = 'wide',
 )
 
+    
 def my_widget(key):
 
+
+    # path to the saved transactions history
+    profile_summary_file = user_data_path +"/user_data/"+ "profile_summary.json"
+
+    with open(profile_summary_file) as f:
+    profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
-    #st.caption(key)
     col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
         col1.metric("Loss", "100.0", "-1%")
-        col2.error("Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col2.error("Loss%: {profile_summary.realised_session_profit_incfees_perc}% | Loss$: {realised_session_profit_incfees_total} | Win: {profile_summary.trade_losses} | Loss: {profile_summary.trade_wins}  | WL%: {profile_summary.win_ratio} |  Coins: {profile_summary.current_holds}/{profile_summary.slots} | Mode: TEST ")
     elif(key == "Scalper"):
         col1.metric("Win", "100.0", "5%")
         col2.success("Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
