@@ -7,14 +7,21 @@ import streamlit as st
 def my_widget(key):
 
     
-    st.subheader('JimBot:' + key)
+    st.subheader(key)
+    col1, col2 = st.columns(2)
     
     if(key == "Snail"):
-        st.error("Losing - Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col1.metric("Loss", "100.0", "-1%")
+        st.error("Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     elif(key == "Scalper"):
-        st.success("Winning - Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col1.metric("Win", "100.0", "5%")
+        st.success("Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     else:
+        col1.metric("N/A", "0", "0%")
         st.error("Not started")
+    
+    
+
     
     
 # And within an expander
@@ -27,3 +34,10 @@ with my_expander:
 my_expander = st.expander("Snail", expanded=True)
 with my_expander:
     clicked = my_widget("Snail")
+
+# And within an expander
+my_expander = st.expander("Jim", expanded=True)
+with my_expander:
+    clicked = my_widget("Jim")
+    
+    
