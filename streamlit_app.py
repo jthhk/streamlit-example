@@ -25,7 +25,7 @@ def my_widget(key):
     
     if(key == "Snail"):
         col1.metric("Loss", str(profile_summary.historicProfitIncFees_Total), str(profile_summary.historicProfitIncFees_Percent) + "%")
-        col2.error("Loss%: " + str(profile_summary.historicProfitIncFees_Percent) + " | Loss$: " + str(profile_summary.historicProfitIncFees_Total) + " | Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio)")
+        col2.error("Loss%: " + str(profile_summary.historicProfitIncFees_Percent) + " | Loss$: " + str(profile_summary.historicProfitIncFees_Total) + " | Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
         col2.write("12 Dec @ 15:30")
     elif(key == "Scalper"):
         col1.metric("Win", "100.0", "5%")
