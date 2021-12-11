@@ -7,7 +7,7 @@ import streamlit as st
 def my_widget(key):
 
     
-    st.subheader(key)
+    st.write(key)
     col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
