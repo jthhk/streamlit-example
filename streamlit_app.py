@@ -14,7 +14,7 @@ def my_widget(key):
 
 
     # path to the saved transactions history
-    profile_summary_file = "/" + key +  "/profile_summary.json"
+    profile_summary_file = "/app/streamlit-example/" + key +  "/profile_summary.json"
 
     with open(profile_summary_file) as f:
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
