@@ -6,19 +6,15 @@ import streamlit as st
 
 def my_widget(key):
 
-    color1 = st.color_picker('选择渐变起始颜色', '#1aa3ff',key=1)
-    st.write("你选择了{color1}")
-    
     
     st.subheader('JimBot:' + key)
     
     if(key == "Snail"):
-        st.error("Losing")
+        st.error("Losing - Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     elif(key == "Scalper"):
-        st.success("Winning")
+        st.success("Winning - Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     else:
         st.error("Not started")
-        
     
     
 # And within an expander
