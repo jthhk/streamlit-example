@@ -19,7 +19,7 @@ def my_widget(key):
     else:
         st.error("Not started")
         
-    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Profit%: 1% | Profit$: 100.1  Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST |  
+    
     
 # And within an expander
 my_expander = st.expander("Scalper", expanded=True)
