@@ -25,12 +25,17 @@ def modification_date(filename):
 def my_widget(key):
 
     # path to the saved transactions history
-
+    trading_mode = "test"
     profile_summary_file = '/home/pi/bots/' + key \
         + '/test_bot_stats.json'
     (col1, col2) = st.columns([1, 3])
 
-    if os.path.isFile(profile_summary_file):
+    #If Test does not exist, check for live
+    if not os.path.isfile(profile_summary_file):
+         profile_summary_file = '/home/pi/bots/' + key + '/bot_stats.json'
+         trading_mode = "live"
+
+    if os.path.isfile(profile_summary_file):
         with open(profile_summary_file) as f:
             profile_summary = json.load(f, object_hook=lambda d: \
                     SimpleNamespace(**d))
@@ -78,7 +83,7 @@ def my_widget(key):
 
             col2.write('Last Updated: ' + str(last_updated)
                        + ' |  Started:' + str(started) + ' | Running:'
-                       + str(run_for))
+                       + str(run_for) + " | mode:" + str(trading_mode))
     else:
 
         col1.metric('N/A', '0', '0%')
