@@ -12,13 +12,13 @@ def my_widget(key):
     
     if(key == "Snail"):
         col1.metric("Loss", "100.0", "-1%")
-        st.error("Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col2.st.error("Loss%: 1% | Loss$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     elif(key == "Scalper"):
         col1.metric("Win", "100.0", "5%")
-        st.success("Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col2.st.success("Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
     else:
         col1.metric("N/A", "0", "0%")
-        st.error("Not started")
+        col2.st.error("Not started")
     
     
 
