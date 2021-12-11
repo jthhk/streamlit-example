@@ -14,7 +14,7 @@ def my_widget(key):
     profile_summary_file = user_data_path +"/user_data/"+ "profile_summary.json"
 
     with open(profile_summary_file) as f:
-    profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
+        profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     
     col1, col2 = st.columns([1,3])
     
