@@ -4,10 +4,11 @@ from types import SimpleNamespace
 import datetime
 from datetime import datetime
 from dateutil.parser import parse
-import os.path, time
 
 import streamlit as st
 
+import os
+import datetime
 
 st.set_page_config(
     page_title = 'Binance Volatility Trading Bot',
