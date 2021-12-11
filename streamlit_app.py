@@ -8,7 +8,7 @@ def my_widget(key):
 
     
     st.subheader(key)
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
         col1.metric("Loss", "100.0", "-1%")
