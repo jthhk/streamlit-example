@@ -7,7 +7,7 @@ import streamlit as st
 def my_widget(key):
 
     color1 = st.color_picker('选择渐变起始颜色', '#1aa3ff',key=1)
-    st.write(f"你选择了{color1}")
+    st.write("你选择了{color1}")
     
     
     st.subheader('JimBot:' + key)
