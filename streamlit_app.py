@@ -3,7 +3,6 @@ from types import SimpleNamespace
 
 import datetime
 from datetime import datetime
-from dateutil.parser import parse
 
 import streamlit as st
 import os
@@ -19,7 +18,7 @@ def left(s, amount):
 
 def modification_date(filename):
     t = os.path.getmtime(filename)
-    return datetime.datetime.fromtimestamp(t)
+    return datetime.fromtimestamp(t)
     
     
 def my_widget(key):
