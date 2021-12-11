@@ -23,10 +23,11 @@ def my_widget(key):
     
     if(key == "Snail"):
         col1.metric("Loss", "100.0", "-1%")
-        col2.error("Loss%: " + str(profile_summary.realised_session_profit_incfees_perc) + "% | Loss$: " + str(profile_summary.realised_session_profit_incfees_total) + " | Win: " + str(profile_summary.trade_losses) + " | Loss: " + str(profile_summary.trade_wins) + " | WL%: " + str(profile_summary.win_ratio) + " | Coins: " + str(profile_summary.current_holds) + "/" + str(profile_summary.slots) + " | Mode: TEST ")
+        col2.error("Loss%: " + str(profile_summary.realised_session_profit_incfees_perc) + " | Loss$: " + str(profile_summary.realised_session_profit_incfees_total) + " | Win: " + str(profile_summary.trade_losses) + " | Loss: " + str(profile_summary.trade_wins) + " | WL%: " + str(profile_summary.win_ratio) + " | Coins: " + str(profile_summary.current_holds) + "/" + str(profile_summary.slots) + " | Mode: TEST ")
     elif(key == "Scalper"):
         col1.metric("Win", "100.0", "5%")
-        col2.success("Profit%: 1% | Profit$: 100.1 | Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST ")
+        col2.success("Loss%: " + str(profile_summary.realised_session_profit_incfees_perc) + " | Loss$: " + str(profile_summary.realised_session_profit_incfees_total) + " | Win: " + str(profile_summary.trade_losses) + " | Loss: " + str(profile_summary.trade_wins) + " | WL%: " + str(profile_summary.win_ratio) + " | Coins: " + str(profile_summary.current_holds) + "/" + str(profile_summary.slots) + " | Mode: TEST ")
+        col2.write("12 Dec @ 15:30")
     else:
         col1.metric("N/A", "0", "0%")
         col2.info("Not started")
