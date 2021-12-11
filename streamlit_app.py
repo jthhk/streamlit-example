@@ -18,7 +18,7 @@ def left(s, amount):
 
 def modification_date(filename):
     t = os.path.getmtime(filename)
-    return datetime.fromtimestamp(t)
+    return datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M')
     
     
 def my_widget(key):
