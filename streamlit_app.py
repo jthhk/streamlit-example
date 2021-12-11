@@ -38,7 +38,7 @@ def my_widget(key):
     elif(key == "Scalper"):
         col1.metric("Profit", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)))
         col2.success("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
-        col2.write("12 Dec @ 15:30  |  Staretd:" + started.strftime("%B") | " Running:" + str(run_for))
+        col2.write("12 Dec @ 15:30  |  Staretd:" + started.strftime("%B") + " | " Running:" + str(run_for))
     else:
         col1.metric("N/A", "0", "0%")
         col2.info("Not started")
