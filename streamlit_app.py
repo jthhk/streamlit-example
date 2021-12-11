@@ -5,6 +5,11 @@ import pandas as pd
 import streamlit as st
 
 def my_widget(key):
+
+    color1 = st.color_picker('选择渐变起始颜色', '#1aa3ff',key=1)
+    st.write(f"你选择了{color1}")
+    
+    
     st.subheader('JimBot:' + key)
     
     if(key == "Snail"):
@@ -14,9 +19,7 @@ def my_widget(key):
     else:
         st.error("Not started")
         
-    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Coins: 1/20 | Mode: TEST </h4>", unsafe_allow_html=True)
-    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Profit%: 1% | Profit$: 100.1 </h4>", unsafe_allow_html=True)
-    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Win: 1 | Loss: 1  | WL%: 100  </h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Profit%: 1% | Profit$: 100.1  Win: 1 | Loss: 1  | WL%: 100 |  Coins: 1/20 | Mode: TEST |  
     
 # And within an expander
 my_expander = st.expander("Scalper", expanded=True)
