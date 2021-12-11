@@ -14,7 +14,7 @@ def my_widget(key):
 
 
     # path to the saved transactions history
-    profile_summary_file = "profile_summary.json"
+    profile_summary_file = "/" + key +  "/profile_summary.json"
 
     with open(profile_summary_file) as f:
         profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
@@ -30,7 +30,8 @@ def my_widget(key):
     elif(key == "Scalper"):
         col1.metric("Win", str(profile_summary.historicProfitIncFees_Total), str(profile_summary.historicProfitIncFees_Percent) + "%")
         col2.error("Win%: " + str(profile_summary.historicProfitIncFees_Percent) + " | Win$: " + str(profile_summary.historicProfitIncFees_Total) + " | Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
-        col2.write("12 Dec @ 15:30")
+        col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
+        
     else:
         col1.metric("N/A", "0", "0%")
         col2.info("Not started")
