@@ -5,8 +5,10 @@ import pandas as pd
 import streamlit as st
 
 def my_widget(key):
-    st.subheader('JimBot updates for' + key)
-    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Started: TIME | Running for: TIME </h4>", unsafe_allow_html=True)
+    st.subheader('JimBot:' + key)
+    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Coins: 1/20 | Mode: TEST </h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Profit%: 1% | Profit$: 100.1 </h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='text-align: left; margin-left: 30px;'> Win: 1 | Loss: 1  | WL%: 100  </h4>", unsafe_allow_html=True)
 
 # And within an expander
 my_expander = st.expander("Scalper", expanded=True)
