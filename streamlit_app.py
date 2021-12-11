@@ -1,5 +1,11 @@
 import streamlit as st
 
+st.set_page_config(
+    page_title = 'Binance Volatility Trading Bot',
+    page_icon = '✅',
+    layout = 'wide',
+)
+
 def my_widget(key):
 
     
