@@ -1,13 +1,9 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
 import streamlit as st
 
 def my_widget(key):
 
     
-    st.write(key)
+    st.caption(key)
     col1, col2 = st.columns([1,3])
     
     if(key == "Snail"):
@@ -19,9 +15,6 @@ def my_widget(key):
     else:
         col1.metric("N/A", "0", "0%")
         col2.error("Not started")
-    
-    
-
     
     
 # And within an expander
