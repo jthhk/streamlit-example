@@ -29,7 +29,7 @@ def my_widget(key):
         col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
     elif(key == "Scalper"):
         col1.metric("Profit", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)) + "%")
-        col2.sucess("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
+        col2.success("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
         col2.write("12 Dec @ 15:30  |  Staretd:" + str(profile_summary.botstart_datetime))
     else:
         col1.metric("N/A", "0", "0%")
