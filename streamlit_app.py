@@ -22,9 +22,10 @@ st.set_page_config(
 )
 
 def ShowGorF(link,captiontext):
-    image = Image.open(link)
-    st.image(image, caption=captiontext)
-
+    #image = Image.open(link)
+    #st.image(image, caption=captiontext)
+    st.markdown("<img src='https://alternative.me/crypto/fear-and-greed-index.png' alt='Latest Crypto Fear & Greed Index'/>") 
+    
 def left(s, amount):
     return s[:amount]
 
