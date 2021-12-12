@@ -20,6 +20,20 @@ def modification_date(filename):
     t = os.path.getmtime(filename)
     return datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M')
     
+
+
+def fetchMarketSentiment():
+    """make a get api call to http://https://api.alternative.me/fng"""
+    url = "https://api.alternative.me/fng"
+    response = requests.get(url)
+    data = response.json()
+    data = data['data'][0]
+    
+    st.write("Market sentiments For Today ")
+    st.write("\nFear Index: {}\nGreed Index: {}".format(data['value'], 100-int(data['value'])))
+    st.write("\nSentiments:{}".format(data['value_classification']))
+    #return data
+    
     
 def my_widget(key):
 
@@ -50,6 +64,10 @@ def my_widget(key):
         col2.info("Not started")
     
     col2.write("Last Updated: " + str(last_updated) + " |  Started:" + str(started) + " | Running:" + str(run_for))
+
+my_expander = st.expander("Index", expanded=True)
+with my_expander:
+    clicked = fetchMarketSentiment()
     
 # Per Algo
 my_expander = st.expander("Scalper", expanded=True)
@@ -60,8 +78,6 @@ my_expander = st.expander("Snail", expanded=True)
 with my_expander:
     clicked = my_widget("Snail")
 
-my_expander = st.expander("Jim", expanded=True)
-with my_expander:
-    clicked = my_widget("Jim")
+
     
     
