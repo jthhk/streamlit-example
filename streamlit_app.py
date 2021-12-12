@@ -31,7 +31,7 @@ def fetchMarketSentiment():
     data = data['data'][0]
     
     st.write("Market sentiments For Today ")
-    st.write("\nFear Index: {}\nGreed Index: {}".format(data['value'], 100-int(data['value'])))
+    st.write("\nIndex value: {}".format(data['value']))
     st.write("\nSentiments:{}".format(data['value_classification']))
     #return data
     
