@@ -12,13 +12,18 @@ import pandas as pd
 import numpy as np            
 from matplotlib import cm
 from matplotlib.patches import Circle, Wedge, Rectangle
-
+from PIL import Image
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title = 'Binance Volatility Trading Bot',
     page_icon = '✅',
     layout = 'wide',
 )
+
+def ShowGorF(link,captiontext):
+    image = Image.open(link)
+    st.image(image, caption=captiontext)
 
 def left(s, amount):
     return s[:amount]
@@ -42,11 +47,6 @@ def rot_text(ang):
 
 def gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
           colors='jet_r', arrow=1, title='', fname=False):
-
-#0 - 24 = extreme fear
-#25 - 49 = Fear
-#50 - 74 = Greed
-#75 - 100 = extreme greed
 
     N = len(labels)
 
@@ -125,14 +125,16 @@ def fetchMarketSentiment():
     st.write("\nNext Update:{}".format(int(data['time_until_update']) / 3600))
     #return data
     #label = format(data['value_classification']). " - " .format(data['value'])
+
+#0 - 24 = extreme fear
+#25 - 49 = Fear
+#50 - 74 = Greed
+#75 - 100 = extreme greed
+    score = data['value']
     
     gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
             colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title="fear")
 
-   
-
-    
-    
     
 def my_widget(key):
 
@@ -166,7 +168,7 @@ def my_widget(key):
 
 my_expander = st.expander("Index", expanded=True)
 with my_expander:
-    clicked = fetchMarketSentiment()
+    clicked = ShowGorF("https://alternative.me/crypto/fear-and-greed-index.png","Crypto Fear & Greed Index" )
     
 # Per Algo
 my_expander = st.expander("Scalper", expanded=True)
