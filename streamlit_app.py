@@ -32,7 +32,7 @@ def ShowGorF(link,captiontext):
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
       {
       "width": "100%",
-      "height": "100%",
+      "height": "400",
       "defaultColumn": "moving_averages",
       "screener_type": "crypto_mkt",
       "displayCurrency": "USD",
@@ -44,7 +44,7 @@ def ShowGorF(link,captiontext):
     </div>
     <!-- TradingView Widget END -->
     """,
-    height=600,)
+    height=400,)
     
 def left(s, amount):
     return s[:amount]
