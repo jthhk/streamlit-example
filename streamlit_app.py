@@ -104,6 +104,8 @@ def gauge(labels=['LOW', 'MEDIUM', 'HIGH', 'VERY HIGH', 'EXTREME'], \
     plt.tight_layout()
     if fname:
         fig.savefig(fname, dpi=200)
+    st.pyplot(fig)
+
 
 
 def fetchMarketSentiment():
@@ -122,8 +124,7 @@ def fetchMarketSentiment():
     gauge(labels=['VERY LOW', 'LOW', 'MEDIUM', 'HIGH'], \
             colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title="something here")
 
-    st.pyplot()
-
+   
 
     
     
