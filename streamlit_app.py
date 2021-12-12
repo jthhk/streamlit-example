@@ -21,7 +21,7 @@ st.set_page_config(
     layout = 'wide',
 )
 
-def ShowGorF(link,captiontext):
+def ShowPrices():
     #<img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
     components.html(
     """
@@ -43,6 +43,12 @@ def ShowGorF(link,captiontext):
       </script>
     </div>
     <!-- TradingView Widget END -->
+    """,
+    height=400,)
+
+def ShowGorF():
+    components.html(
+    """
     <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/>
     """,
     height=400,)
@@ -190,7 +196,11 @@ def my_widget(key):
 
 my_expander = st.expander("Index", expanded=True)
 with my_expander:
-    clicked = ShowGorF("https://alternative.me/crypto/fear-and-greed-index.png","Crypto Fear & Greed Index" )
+    clicked = ShowGorF()
+
+my_expander = st.expander("Prices", expanded=True)
+with my_expander:
+    clicked = ShowPrices()
     
 # Per Algo
 my_expander = st.expander("Scalper", expanded=True)
