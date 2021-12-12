@@ -44,7 +44,7 @@ def ShowGorF(link,captiontext):
     </div>
     <!-- TradingView Widget END -->
     """,
-    height=400,)
+    height=600,)
     
 def left(s, amount):
     return s[:amount]
