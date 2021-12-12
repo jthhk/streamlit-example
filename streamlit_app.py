@@ -22,9 +22,9 @@ st.set_page_config(
 )
 
 def ShowGorF(link,captiontext):
+    #<img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
     components.html(
     """
-    <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
     <!-- TradingView Widget BEGIN -->
     <div class="tradingview-widget-container">
       <div class="tradingview-widget-container__widget"></div>
