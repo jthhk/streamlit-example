@@ -6,6 +6,7 @@ from datetime import datetime
 
 import streamlit as st
 import os
+import requests
 
 st.set_page_config(
     page_title = 'Binance Volatility Trading Bot',
