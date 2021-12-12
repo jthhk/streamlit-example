@@ -33,6 +33,7 @@ def fetchMarketSentiment():
     st.write("Market sentiments For Today ")
     st.write("\nIndex value: {}".format(data['value']))
     st.write("\nSentiments:{}".format(data['value_classification']))
+    st.write("\nNext Update:{}".format(data['time_until_update']))
     #return data
     
     
