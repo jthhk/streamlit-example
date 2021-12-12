@@ -124,10 +124,10 @@ def fetchMarketSentiment():
     st.write("\nSentiments:{}".format(data['value_classification']))
     st.write("\nNext Update:{}".format(int(data['time_until_update']) / 3600))
     #return data
-    label = format(data['value_classification']). " - " .format(data['value'])
+    #label = format(data['value_classification']). " - " .format(data['value'])
     
     gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
-            colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title=label)
+            colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title="fear")
 
    
 
