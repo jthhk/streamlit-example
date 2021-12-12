@@ -100,7 +100,7 @@ def gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
 
     ax.add_patch(Circle((0, 0), radius=0.02, facecolor='k'))
     ax.add_patch(Circle((0, 0), radius=0.01, facecolor='w', zorder=11))
-    plt.title("DQ Score", fontsize = 20)
+    plt.title("Greed or Fear", fontsize = 20)
     ax.set_frame_on(False)
     ax.axes.set_xticks([])
     ax.axes.set_yticks([])
@@ -125,8 +125,8 @@ def fetchMarketSentiment():
     st.write("\nNext Update:{}".format(int(data['time_until_update']) / 3600))
     #return data
     
-    gauge(labels=['VERY LOW', 'LOW', 'MEDIUM', 'HIGH'], \
-            colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title="something here")
+    gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
+            colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title=.format(data['value_classification'])" - " .format(data['value']))
 
    
 
