@@ -40,9 +40,13 @@ def rot_text(ang):
     return rotation
 
 
-def gauge(labels=['LOW', 'MEDIUM', 'HIGH', 'VERY HIGH', 'EXTREME'], \
+def gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
           colors='jet_r', arrow=1, title='', fname=False):
 
+#0 - 24 = extreme fear
+#25 - 49 = Fear
+#50 - 74 = Greed
+#75 - 100 = extreme greed
 
     N = len(labels)
 
