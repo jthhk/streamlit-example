@@ -22,10 +22,9 @@ st.set_page_config(
 )
 
 def ShowGorF(link,captiontext):
-    #image = Image.open(link)
-    #st.image(image, caption=captiontext)
     components.html(
     """
+    <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
     <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
     """,
     height=400,)
