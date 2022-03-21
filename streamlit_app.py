@@ -61,8 +61,8 @@ def load_data():
     coins = {}
     coin_data = json.loads(data.contents[0])
     listings = coin_data['props']['initialState']['cryptocurrency']['listingLatest']['data']
-    for i in listings:
-      st.markdown(i)
+    #for i in listings:
+      #st.markdown(i)
       #coins[str(i['id'])] = i['slug']
 
     coin_name = []
