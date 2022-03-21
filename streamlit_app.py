@@ -63,7 +63,7 @@ def load_data():
     listings = coin_data['props']['initialState']['cryptocurrency']['listingLatest']['data']
     for i in listings:
       st.markdown(i)
-      coins[str(i[id])] = i[slug]
+      #coins[str(i['id'])] = i['slug']
 
     coin_name = []
     coin_symbol = []
