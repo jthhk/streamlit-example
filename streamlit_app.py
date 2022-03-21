@@ -1,216 +1,169 @@
-import json
-from types import SimpleNamespace
-
-import datetime
-from datetime import datetime
-
+# # This app is for educational purpose only. Insights gained is not financial advice. Use at your own risk!
 import streamlit as st
-import os
-import requests
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np            
-from matplotlib import cm
-from matplotlib.patches import Circle, Wedge, Rectangle
 from PIL import Image
-import streamlit.components.v1 as components
+import pandas as pd
+import base64
+import matplotlib.pyplot as plt
+from bs4 import BeautifulSoup
+import requests
+import json
+import time
+#---------------------------------#
+# New feature (make sure to upgrade your streamlit library)
+# pip install --upgrade streamlit
 
-st.set_page_config(
-    page_title = 'Binance Volatility Trading Bot',
-    page_icon = '✅',
-    layout = 'wide',
-)
+#---------------------------------#
+# Page layout
+## Page expands to full width
+st.set_page_config(layout="wide") #st.beta_set_page_config(layout="wide")
+#---------------------------------#
+# Title
 
-def ShowPrices():
-    #<img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/> 
-    components.html(
-    """
-    <!-- TradingView Widget BEGIN -->
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-container__widget"></div>
-      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/cryptocurrencies/prices-all/" rel="noopener" target="_blank"><span class="blue-text">Cryptocurrency Markets</span></a> by TradingView</div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
-      {
-      "width": "100%",
-      "height": "400",
-      "defaultColumn": "moving_averages",
-      "screener_type": "crypto_mkt",
-      "displayCurrency": "USD",
-      "colorTheme": "light",
-      "locale": "en",
-      "isTransparent": false
-    }
-      </script>
-    </div>
-    <!-- TradingView Widget END -->
-    """,
-    height=400,)
+image = Image.open('logo.jpg')
 
-def ShowGorF():
-    components.html(
-    """
-    <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index"/>
-    """,
-    height=400,)
-    
-def left(s, amount):
-    return s[:amount]
+st.image(image, width = 500)
 
-def modification_date(filename):
-    t = os.path.getmtime(filename)
-    return datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M')
-    
+st.title('Crypto Price App')
+st.markdown("""
+This app retrieves cryptocurrency prices for the top 100 cryptocurrency from the **CoinMarketCap**!
 
-def degree_range(n):
-    start = np.linspace(0, 180, n + 1, endpoint=True)[0:-1]
-    end = np.linspace(0, 180, n + 1, endpoint=True)[1::]
-    mid_points = start + ((end - start) / 2.)
-    return np.c_[start, end], mid_points
+""")
+#---------------------------------#
+# About
+expander_bar = st.beta_expander("About")
+expander_bar.markdown("""
+* **Python libraries:** base64, pandas, streamlit, numpy, matplotlib, seaborn, BeautifulSoup, requests, json, time
+* **Data source:** [CoinMarketCap](http://coinmarketcap.com).
+* **Credit:** Web scraper adapted from the Medium article *[Web Scraping Crypto Prices With Python](https://towardsdatascience.com/web-scraping-crypto-prices-with-python-41072ea5b5bf)* written by [Bryan Feng](https://medium.com/@bryanf).
+""")
 
 
-def rot_text(ang):
-    rotation = np.degrees(np.radians(ang) * np.pi / np.pi - np.radians(90))
-    return rotation
+#---------------------------------#
+# Page layout (continued)
+## Divide page to 3 columns (col1 = sidebar, col2 and col3 = page contents)
+col1 = st.sidebar
+col2, col3 = st.beta_columns((2,1))
 
+#---------------------------------#
+# Sidebar + Main panel
+col1.header('Input Options')
 
-def gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
-          colors='jet_r', arrow=1, title='', fname=False):
+## Sidebar - Currency price unit
+currency_price_unit = col1.selectbox('Select currency for price', ('USD', 'BTC', 'ETH'))
 
-    N = len(labels)
+# Web scraping of CoinMarketCap data
+@st.cache
+def load_data():
+    cmc = requests.get('https://coinmarketcap.com')
+    soup = BeautifulSoup(cmc.content, 'html.parser')
 
-    if arrow > N:
-        raise Exception("\n\nThe category ({}) is greated than \
-        the length\nof the labels ({})".format(arrow, N))
+    data = soup.find('script', id='__NEXT_DATA__', type='application/json')
+    coins = {}
+    coin_data = json.loads(data.contents[0])
+    listings = coin_data['props']['initialState']['cryptocurrency']['listingLatest']['data']
+    for i in listings:
+      coins[str(i['id'])] = i['slug']
 
+    coin_name = []
+    coin_symbol = []
+    market_cap = []
+    percent_change_1h = []
+    percent_change_24h = []
+    percent_change_7d = []
+    price = []
+    volume_24h = []
 
-    if isinstance(colors, str):
-        cmap = cm.get_cmap(colors, N)
-        cmap = cmap(np.arange(N))
-        colors = cmap[::-1, :].tolist()
-    if isinstance(colors, list):
-        if len(colors) == N:
-            colors = colors[::-1]
-        else:
-            raise Exception("\n\nnumber of colors {} not equal \
-            to number of categories{}\n".format(len(colors), N))
+    for i in listings:
+      coin_name.append(i['slug'])
+      coin_symbol.append(i['symbol'])
+      price.append(i['quote'][currency_price_unit]['price'])
+      percent_change_1h.append(i['quote'][currency_price_unit]['percentChange1h']) # percent_change_1h
+      percent_change_24h.append(i['quote'][currency_price_unit]['percentChange24h']) #percent_change_24h
+      percent_change_7d.append(i['quote'][currency_price_unit]['percentChange7d']) # percent_change_7d
+      market_cap.append(i['quote'][currency_price_unit]['marketCap']) # market_cap
+      volume_24h.append(i['quote'][currency_price_unit]['volume24h']) # volume_24h
 
+    df = pd.DataFrame(columns=['coin_name', 'coin_symbol', 'marketCap', 'percentChange1h', 'percentChange24h', 'percentChange7d', 'price', 'volume24h'])
+    df['coin_name'] = coin_name
+    df['coin_symbol'] = coin_symbol
+    df['price'] = price
+    df['percentChange1h'] = percent_change_1h
+    df['percentChange24h'] = percent_change_24h
+    df['percentChange7d'] = percent_change_7d
+    df['marketCap'] = market_cap
+    df['volume24h'] = volume_24h
+    return df
 
-    fig, ax = plt.subplots()
+df = load_data()
 
-    ang_range, mid_points = degree_range(N)
+## Sidebar - Cryptocurrency selections
+sorted_coin = sorted( df['coin_symbol'] )
+selected_coin = col1.multiselect('Cryptocurrency', sorted_coin, sorted_coin)
 
-    labels = labels[::-1]
+df_selected_coin = df[ (df['coin_symbol'].isin(selected_coin)) ] # Filtering data
 
-    patches = []
-    for ang, c in zip(ang_range, colors):
-        # sectors
-        patches.append(Wedge((0.,0.), .4, *ang, facecolor='w', lw=2))
-        # arcs
-        patches.append(Wedge((0., 0.), .4, *ang, width=0.10, facecolor=c, lw=2, alpha=0.5))
+## Sidebar - Number of coins to display
+num_coin = col1.slider('Display Top N Coins', 1, 100, 100)
+df_coins = df_selected_coin[:num_coin]
 
-    foo = [ax.add_patch(p) for p in patches]
+## Sidebar - Percent change timeframe
+percent_timeframe = col1.selectbox('Percent change time frame',
+                                    ['7d','24h', '1h'])
+percent_dict = {"7d":'percentChange7d',"24h":'percentChange24h',"1h":'percentChange1h'}
+selected_percent_timeframe = percent_dict[percent_timeframe]
 
-    for mid, lab in zip(mid_points, labels):
-        ax.text(0.35 * np.cos(np.radians(mid)), 0.35 * np.sin(np.radians(mid)), lab, \
-                horizontalalignment='center', verticalalignment='center', fontsize=14, \
-                fontweight='bold', rotation=rot_text(mid))
+## Sidebar - Sorting values
+sort_values = col1.selectbox('Sort values?', ['Yes', 'No'])
 
-    r = Rectangle((-0.4, -0.1), 0.8, 0.1, facecolor='w', lw=2)
-    ax.add_patch(r)
+col2.subheader('Price Data of Selected Cryptocurrency')
+col2.write('Data Dimension: ' + str(df_selected_coin.shape[0]) + ' rows and ' + str(df_selected_coin.shape[1]) + ' columns.')
 
-    ax.text(0, -0.05, title, horizontalalignment='center', \
-            verticalalignment='center', fontsize=22, fontweight='bold')
+col2.dataframe(df_coins)
 
-    pos = mid_points[abs(arrow - N)]
+# Download CSV data
+# https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
+def filedownload(df):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
+    href = f'<a href="data:file/csv;base64,{b64}" download="crypto.csv">Download CSV File</a>'
+    return href
 
-    ax.arrow(0, 0, 0.225 * np.cos(np.radians(pos)), 0.225 * np.sin(np.radians(pos)), \
-             width=0.04, head_width=0.09, head_length=0.1, fc='k', ec='k')
+col2.markdown(filedownload(df_selected_coin), unsafe_allow_html=True)
 
-    ax.add_patch(Circle((0, 0), radius=0.02, facecolor='k'))
-    ax.add_patch(Circle((0, 0), radius=0.01, facecolor='w', zorder=11))
-    plt.title("Greed or Fear", fontsize = 20)
-    ax.set_frame_on(False)
-    ax.axes.set_xticks([])
-    ax.axes.set_yticks([])
-    ax.axis('equal')
-    plt.tight_layout()
-    if fname:
-        fig.savefig(fname, dpi=200)
-    st.pyplot(fig)
+#---------------------------------#
+# Preparing data for Bar plot of % Price change
+col2.subheader('Table of % Price Change')
+df_change = pd.concat([df_coins.coin_symbol, df_coins.percentChange1h, df_coins.percentChange24h, df_coins.percentChange7d], axis=1)
+df_change = df_change.set_index('coin_symbol')
+df_change['positive_percent_change_1h'] = df_change['percentChange1h'] > 0
+df_change['positive_percent_change_24h'] = df_change['percentChange24h'] > 0
+df_change['positive_percent_change_7d'] = df_change['percentChange7d'] > 0
+col2.dataframe(df_change)
 
+# Conditional creation of Bar plot (time frame)
+col3.subheader('Bar plot of % Price Change')
 
-
-def fetchMarketSentiment():
-    """make a get api call to http://https://api.alternative.me/fng"""
-    url = "https://api.alternative.me/fng"
-    response = requests.get(url)
-    data = response.json()
-    data = data['data'][0]
-    
-    st.write("Market sentiments For Today ")
-    st.write("\nIndex value: {}".format(data['value']))
-    st.write("\nSentiments:{}".format(data['value_classification']))
-    st.write("\nNext Update:{}".format(int(data['time_until_update']) / 3600))
-    #return data
-    #label = format(data['value_classification']). " - " .format(data['value'])
-
-#0 - 24 = extreme fear
-#25 - 49 = Fear
-#50 - 74 = Greed
-#75 - 100 = extreme greed
-    score = data['value']
-    
-    gauge(labels=['extreme fear', 'fear', 'Greed', 'extreme greed'], \
-            colors=["#1b0203", "#ED1C24", '#FFCC00', '#007A00'], arrow=2, title="fear")
-
-    
-def my_widget(key):
-
-
-    # path to the saved transactions history
-    profile_summary_file = "/app/streamlit-example/" + key +  "/profile_summary.json"
-    
-    with open(profile_summary_file) as f:
-        profile_summary = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
-    
-    last_updated = modification_date(profile_summary_file)
-    
-    win_ratio =  round((profile_summary.tradeWins / (profile_summary.tradeWins + profile_summary.tradeLosses)) * 100,2)
-    started = left(profile_summary.botstart_datetime,16)
-    start_date = datetime.fromisoformat(profile_summary.botstart_datetime)
-    run_for = str(datetime.now() - start_date).split('.')[0]
-        
-    col1, col2 = st.columns([1,3])
-    
-    if(key == "Snail"):
-        col1.metric("Lose", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)))
-        col2.error("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
-    elif(key == "Scalper"):
-        col1.metric("Profit", str(round(profile_summary.historicProfitIncFees_Total,2)), str(round(profile_summary.historicProfitIncFees_Percent,1)))
-        col2.success("Win: " + str(profile_summary.tradeWins) + " | Loss: " + str(profile_summary.tradeLosses) + " | WL%: " + str(win_ratio) + "%")
-    else:
-        col1.metric("N/A", "0", "0%")
-        col2.info("Not started")
-    
-    col2.write("Last Updated: " + str(last_updated) + " |  Started:" + str(started) + " | Running:" + str(run_for))
-
-my_expander = st.expander("Index", expanded=True)
-with my_expander:
-    clicked = ShowGorF()
-
-my_expander = st.expander("Prices", expanded=True)
-with my_expander:
-    clicked = ShowPrices()
-    
-# Per Algo
-my_expander = st.expander("Scalper", expanded=True)
-with my_expander:
-    clicked = my_widget("Scalper")
-
-my_expander = st.expander("Snail", expanded=True)
-with my_expander:
-    clicked = my_widget("Snail")
-
-
-    
-    
+if percent_timeframe == '7d':
+    if sort_values == 'Yes':
+        df_change = df_change.sort_values(by=['percentChange7d'])
+    col3.write('*7 days period*')
+    plt.figure(figsize=(5,25))
+    plt.subplots_adjust(top = 1, bottom = 0)
+    df_change['percentChange7d'].plot(kind='barh', color=df_change.positive_percent_change_7d.map({True: 'g', False: 'r'}))
+    col3.pyplot(plt)
+elif percent_timeframe == '24h':
+    if sort_values == 'Yes':
+        df_change = df_change.sort_values(by=['percentChange24h'])
+    col3.write('*24 hour period*')
+    plt.figure(figsize=(5,25))
+    plt.subplots_adjust(top = 1, bottom = 0)
+    df_change['percentChange24h'].plot(kind='barh', color=df_change.positive_percent_change_24h.map({True: 'g', False: 'r'}))
+    col3.pyplot(plt)
+else:
+    if sort_values == 'Yes':
+        df_change = df_change.sort_values(by=['percentChange1h'])
+    col3.write('*1 hour period*')
+    plt.figure(figsize=(5,25))
+    plt.subplots_adjust(top = 1, bottom = 0)
+    df_change['percentChange1h'].plot(kind='barh', color=df_change.positive_percent_change_1h.map({True: 'g', False: 'r'}))
+    col3.pyplot(plt)
