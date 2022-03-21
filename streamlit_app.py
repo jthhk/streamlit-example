@@ -15,7 +15,7 @@ import time
 #---------------------------------#
 # Page layout
 ## Page expands to full width
-st.set_page_config(layout="wide") #st.beta_set_page_config(layout="wide")
+st.set_page_config(layout="wide") #st.set_page_config(layout="wide")
 #---------------------------------#
 # Title
 
@@ -30,7 +30,7 @@ This app retrieves cryptocurrency prices for the top 100 cryptocurrency from the
 """)
 #---------------------------------#
 # About
-expander_bar = st.beta_expander("About")
+expander_bar = st.expander("About")
 expander_bar.markdown("""
 * **Python libraries:** base64, pandas, streamlit, numpy, matplotlib, seaborn, BeautifulSoup, requests, json, time
 * **Data source:** [CoinMarketCap](http://coinmarketcap.com).
@@ -42,7 +42,7 @@ expander_bar.markdown("""
 # Page layout (continued)
 ## Divide page to 3 columns (col1 = sidebar, col2 and col3 = page contents)
 col1 = st.sidebar
-col2, col3 = st.beta_columns((2,1))
+col2, col3 = st.columns((2,1))
 
 #---------------------------------#
 # Sidebar + Main panel
@@ -62,6 +62,7 @@ def load_data():
     coin_data = json.loads(data.contents[0])
     listings = coin_data['props']['initialState']['cryptocurrency']['listingLatest']['data']
     for i in listings:
+      st.markdown(i)
       coins[str(i['id'])] = i['slug']
 
     coin_name = []
